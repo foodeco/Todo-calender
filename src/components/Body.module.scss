@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  & > div {
+    width: calc(100% / 7);
+    height: 50px;
+    &:hover {
+      background-color: blue;
+    }
+  }
+}
