@@ -1,16 +1,20 @@
 .head {
   position: relative;
-  display: flex;
-  justify-content: space-between;
+  //display: flex;
+  //justify-content: space-between;
   & > div {
     display: flex;
   }
-  .days div {
-    width: calc(100% / 7);
+  .days {
+    //width: 100%;
+    div {
+      width: calc(100% / 7);
+    }
+  }
+  .calHeader {
+    justify-content: space-between;
+    align-items: center;
   }
   .btnGroup {
-    position: absolute;
-    top: 0;
-    right: 0;
   }
 }

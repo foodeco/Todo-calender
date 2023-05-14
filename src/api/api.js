@@ -1,4 +1,4 @@
-export async function postApi() {
+export async function postApi(todo, order) {
   const res = await fetch(
     'https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos',
     {
@@ -9,13 +9,14 @@ export async function postApi() {
         username: 'KDT5_SeoDongUk',
       },
       body: JSON.stringify({
-        title: 'having lunch2',
-        order: '1',
+        title: todo,
+        order: order,
       }),
     }
   );
   const json = await res.json();
   console.log(json);
+  return json;
 }
 
 export async function getApi() {
@@ -33,6 +34,28 @@ export async function getApi() {
   const json = await res.json();
   console.log(json);
   return json; // to-do array
+}
+
+export async function putApi(id) {
+  const res = await fetch(
+    `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        apikey: 'KDT5_nREmPe9B',
+        username: 'KDT5_SeoDongUk',
+      },
+      body: JSON.stringify({
+        title: '',
+        done: '',
+        order: '',
+      }),
+    }
+  );
+  const json = await res.json();
+  console.log(json);
+  return json;
 }
 
 export async function deleteApi(id) {

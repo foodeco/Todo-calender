@@ -13,4 +13,8 @@ export default createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/todo/:todoId',
+    element: <Todo />,
+  },
 ]);

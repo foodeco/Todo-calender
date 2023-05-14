@@ -9,6 +9,7 @@ const month = YMD.getMonth() + 1;
 
 export default function Calender() {
   const [whatMonth, setWhatMonth] = useState(month);
+  const [whatYear, setWhatYear] = useState(year);
   const [totalDates, setTotalDates] = useState(0);
 
   function generateCalender(month) {
@@ -35,14 +36,20 @@ export default function Calender() {
   }
   //console.log(generateCalender(month));
   useEffect(() => {
-    console.log(generateCalender(month));
-    setTotalDates(generateCalender(month));
+    if (!whatMonth) {
+      setWhatYear(whatYear - 1);
+      setWhatMonth(12);
+    } else if (whatMonth > 12) {
+      setWhatYear(whatYear + 1);
+      setWhatMonth(1);
+    }
+    setTotalDates(generateCalender(whatMonth));
   }, [whatMonth]);
 
   return (
     <div className="container">
-      <Head setWhatMonth={setWhatMonth} month={month} />
-      <Body totalDates={totalDates} month={month} />
+      <Head setWhatMonth={setWhatMonth} year={whatYear} month={whatMonth} />
+      <Body totalDates={totalDates} year={whatYear} month={whatMonth} />
     </div>
   );
 }
