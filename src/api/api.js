@@ -36,7 +36,7 @@ export async function getApi() {
   return json; // to-do array
 }
 
-export async function putApi(id) {
+export async function putApi(id, data) {
   const res = await fetch(
     `https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/${id}`,
     {
@@ -46,11 +46,7 @@ export async function putApi(id) {
         apikey: 'KDT5_nREmPe9B',
         username: 'KDT5_SeoDongUk',
       },
-      body: JSON.stringify({
-        title: '',
-        done: '',
-        order: '',
-      }),
+      body: JSON.stringify(data),
     }
   );
   const json = await res.json();

@@ -1,57 +1,64 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { postApi, getApi, deleteApi } from '../api/api';
+import { postApi, getApi } from '../api/api';
 import TodoItem from '@/components/TodoItem';
+import styles from '@/styles/Todo.module.scss';
 
 export default function Todo() {
   const [todo, setTodo] = useState('');
   const [todoList, setTodoList] = useState([]);
   const { todoId } = useParams();
 
-  const [done, setDone] = useState(false);
-
   async function postTodo(e) {
     e.preventDefault();
-    const res = await postApi(todo, todoId + '-1');
+    const res = await postApi(todo, todoId + `${todoList.length}`);
     console.log(res);
+    await getTodo();
+    setTodo('');
   }
-
-  //getTodo();
+  async function getTodo() {
+    const res = await getApi();
+    const dayTodos = res.filter((dayTodo) => {
+      if (dayTodo.order.toString().includes(`${todoId}`)) {
+        return dayTodo;
+      }
+    });
+    setTodoList(dayTodos);
+  }
   useEffect(() => {
     (async () => {
-      const res = await getApi();
-      console.log(res);
-      setTodoList(res);
+      await getTodo();
     })();
   }, []);
   console.log(todoId);
-  //console.log(todoList);
+
   return (
-    <div className="container">
-      <form onSubmit={postTodo}>
+    <div className={`container ${styles.container}`}>
+      <form onSubmit={postTodo} style={{ position: 'relative' }}>
         <input
           type="text"
+          value={todo}
+          className={styles.a}
           onChange={(e) => {
             setTodo(e.target.value);
-            console.log(todo);
           }}
-          value={todo}
         />
-        <button>submit</button>
+        <button id="search" className="btn" />
       </form>
       <ul>
         {todoList
           ? todoList.map((todo) => (
               <TodoItem
-                key={todo.title}
+                key={todo.id}
                 id={todo.id}
                 todo={todo.title}
-                created={todo.createdAt}
-                updated={todo.updatedAt}
-                done={setDone}
+                order={todo.order}
+                done={todo.done}
+                created={new Date(todo.createdAt)}
+                updated={new Date(todo.updatedAt)}
               />
             ))
-          : ''}
+          : null}
       </ul>
     </div>
   );

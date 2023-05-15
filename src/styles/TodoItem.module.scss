@@ -1,0 +1,52 @@
+.todoItem {
+  display: flex;
+  color: rgba(0, 0, 0, 0.5);
+  border: 2px solid #d6d6d6;
+  border-radius: 20px;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 10px;
+  input[type='checkbox'] {
+    display: none;
+    & + label {
+      width: 30px;
+      height: 30px;
+      margin: auto;
+      background-color: transparent;
+      border: 1px solid #dfbd43;
+      cursor: pointer;
+    }
+    &:checked + label {
+      background-color: #dfbd43;
+      background-image: url(/assets/check.svg);
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: 15px;
+    }
+  }
+  .contents {
+    flex-grow: 1;
+    padding: 10px;
+    padding-top: 0;
+    .content {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 10px;
+
+      input {
+        border-color: 1px solid #d6d6d6;
+        height: 30px;
+        border: none;
+      }
+    }
+  }
+  .time {
+    font-size: 15px;
+    span:first-child {
+      margin-right: 50px;
+    }
+  }
+}
+.check {
+  text-decoration: line-through;
+}

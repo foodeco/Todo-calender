@@ -1,11 +1,15 @@
 .container {
   display: flex;
   flex-wrap: wrap;
+  border: 1px solid #d6d6d6;
   a {
     width: calc(100% / 7);
-    height: 50px;
+    height: 150px;
+    padding: 10px;
+    text-decoration: none;
+
     &:hover {
-      background-color: blue;
+      background-color: #dfbd43;
     }
   }
 }
