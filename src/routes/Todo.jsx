@@ -33,7 +33,6 @@ export default function Todo() {
     })();
   }, []);
   console.log(todoId);
-
   return (
     <div className={`container ${styles.container}`}>
       <h2>{today.join('')}</h2>

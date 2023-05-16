@@ -16,8 +16,9 @@ export default function Body({ totalDates, year, month }) {
                 return (
                   <Date1
                     key={idx}
-                    year={year - 1}
+                    year={year}
                     month={month - 1}
+                    thisMonth={month}
                     date={date}
                   />
                 );
@@ -25,13 +26,22 @@ export default function Body({ totalDates, year, month }) {
                 return (
                   <Date1
                     key={idx}
-                    year={year + 1}
+                    year={year}
                     month={month + 1}
+                    thisMonth={month}
                     date={date}
                   />
                 );
               }
-              return <Date1 key={idx} year={year} month={month} date={date} />;
+              return (
+                <Date1
+                  key={idx}
+                  year={year}
+                  month={month}
+                  thisMonth={month}
+                  date={date}
+                />
+              );
             })
           : ''}
       </div>

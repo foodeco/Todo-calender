@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { deleteApi, putApi } from '@/api/api';
 import styles from '@/styles/TodoItem.module.scss';
-import { useEffect } from 'react';
+import { useContext } from 'react';
+import Context from '../store/store';
 
 export default function TodoItem({ todo, id, order, done, created, updated }) {
   const check = useRef(done);
@@ -15,7 +16,7 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
     date: splitUpdated[2],
     time: splitUpdated[4].slice(0, 5).slice(0, 5),
   });
-  console.log(created.toString().split(' '));
+  //console.log(created.toString().split(' '));
   const [title, setTitle] = useState(todo);
   const [isDel, setIsDel] = useState(false);
   const [editData, setEditData] = useState({
@@ -28,9 +29,9 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
     const res = await deleteApi(id);
     setIsDel(true);
     console.log(res);
+    dispatch({ type: 'DEL_TODO', id });
   }
   async function editTodo() {
-    console.log(editData);
     const res = await putApi(id, editData);
     const newTime = new Date(res.updatedAt).toString().split(' ');
     check.current = res.done;
@@ -40,9 +41,16 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
       time: newTime[4].slice(0, 5),
     });
   }
+
+  const { dispatch } = useContext(Context);
   useEffect(() => {
     editTodo();
+    dispatch({ type: 'EDIT_TODO', id: editData.order, title: editData.title });
   }, [editData]);
+
+  useEffect(() => {
+    dispatch({ type: 'ADD_TODO', id: order, title: todo, order: order });
+  }, []);
 
   return (
     <>
@@ -59,7 +67,6 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
                 ...editData,
                 done: check.current,
               });
-              //editTodo();
             }}
           />
           <label htmlFor="checkbox"></label>
@@ -78,17 +85,25 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
                   </span>
                 </>
               ) : (
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
                     setEditData({
                       ...editData,
-                      title: e.target.value,
+                      title: title,
                     });
+                    setToggleEdit(!toggleEdit);
                   }}
-                />
+                  style={{ width: 100 + '%' }}
+                >
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => {
+                      setTitle(e.target.value);
+                    }}
+                  />
+                </form>
               )}
             </div>
           </div>
@@ -98,9 +113,6 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
               id="edit"
               className="btn"
               onClick={() => {
-                // if (toggleEdit) {
-                //   editTodo();
-                // }
                 setToggleEdit(!toggleEdit);
               }}
             />
