@@ -8,6 +8,8 @@ export default function Todo() {
   const [todo, setTodo] = useState('');
   const [todoList, setTodoList] = useState([]);
   const { todoId } = useParams();
+  const today = todoId.split('').slice(2);
+  today.splice(2, 0, '/');
 
   async function postTodo(e) {
     e.preventDefault();
@@ -34,6 +36,7 @@ export default function Todo() {
 
   return (
     <div className={`container ${styles.container}`}>
+      <h2>{today.join('')}</h2>
       <form onSubmit={postTodo} style={{ position: 'relative' }}>
         <input
           type="text"

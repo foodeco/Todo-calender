@@ -1,22 +1,26 @@
 import { useRef, useState } from 'react';
 import { deleteApi, putApi } from '@/api/api';
 import styles from '@/styles/TodoItem.module.scss';
+import { useEffect } from 'react';
 
 export default function TodoItem({ todo, id, order, done, created, updated }) {
   const check = useRef(done);
-  const today = {
-    month: created.getMonth() + 1,
-    date: created.getDate(),
-  };
-  const createdTime = created.toString().split(' ')[4].slice(0, 5);
-  const [updatedTime, setUpdated] = useState(
-    updated.toString().split(' ')[4].slice(0, 5)
-  ).slice(0, 5);
+  const splitCreated = created.toString().split(' ');
+  const splitUpdated = updated.toString().split(' ');
+  const createdTime = `${splitCreated[1]} ${
+    splitCreated[2]
+  } (${splitCreated[4].slice(0, 5)})`;
+  const [updatedTime, setUpdated] = useState({
+    month: splitUpdated[1],
+    date: splitUpdated[2],
+    time: splitUpdated[4].slice(0, 5).slice(0, 5),
+  });
+  console.log(created.toString().split(' '));
   const [title, setTitle] = useState(todo);
   const [isDel, setIsDel] = useState(false);
   const [editData, setEditData] = useState({
     title: todo,
-    done: false,
+    done: done,
     order: order,
   });
   const [toggleEdit, setToggleEdit] = useState(false);
@@ -26,18 +30,22 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
     console.log(res);
   }
   async function editTodo() {
+    console.log(editData);
     const res = await putApi(id, editData);
-    const newTime = new Date(res.updatedAt)
-      .toString()
-      .split(' ')[4]
-      .slice(0, 5);
+    const newTime = new Date(res.updatedAt).toString().split(' ');
     check.current = res.done;
-    setUpdated(newTime);
+    setUpdated({
+      month: newTime[1],
+      date: newTime[2],
+      time: newTime[4].slice(0, 5),
+    });
   }
+  useEffect(() => {
+    editTodo();
+  }, [editData]);
 
   return (
     <>
-      <h2>({`${today.month}.${today.date}`}) Today's tasks</h2>
       {!isDel ? (
         <div className={styles.todoItem}>
           <input
@@ -51,7 +59,7 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
                 ...editData,
                 done: check.current,
               });
-              editTodo();
+              //editTodo();
             }}
           />
           <label htmlFor="checkbox"></label>
@@ -64,7 +72,10 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
                   <div className={`${check.current ? styles.check : ''}`}>
                     {title}
                   </div>
-                  <span className={styles.time}>edited: {updatedTime}</span>
+                  <span className={styles.time}>
+                    edited:{' '}
+                    {`${updatedTime.month} ${updatedTime.date} (${updatedTime.time})`}
+                  </span>
                 </>
               ) : (
                 <input
@@ -87,9 +98,9 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
               id="edit"
               className="btn"
               onClick={() => {
-                if (toggleEdit) {
-                  editTodo();
-                }
+                // if (toggleEdit) {
+                //   editTodo();
+                // }
                 setToggleEdit(!toggleEdit);
               }}
             />

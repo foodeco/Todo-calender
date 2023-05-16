@@ -6,6 +6,7 @@ export default function Date1({ year, month, date }) {
   const TODAY = new Date().getDate();
   year = year - 2000;
   month = month < 10 ? '0' + month : month;
+  date = date < 10 ? '0' + date : date;
   const id = year + '' + month + '' + date;
 
   return (
