@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { postApi, getApi } from '../api/api';
 import TodoItem from '@/components/TodoItem';
 import styles from '@/styles/Todo.module.scss';
+import { useCallback } from 'react';
 
 export default function Todo() {
   const [todo, setTodo] = useState('');
@@ -10,10 +11,27 @@ export default function Todo() {
   const { todoId } = useParams();
   const today = todoId.split('').slice(2);
   today.splice(2, 0, '/');
+  const cnt = useRef(0);
 
-  async function postTodo(e) {
+  const printValue = useCallback(debounce(postTodo));
+  function debounce(cb, timeout = 300) {
+    let timer;
+    console.log('111');
+    return () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        console.log(this);
+        cb();
+      }, timeout);
+    };
+  }
+  const processChange = (e) => {
     e.preventDefault();
-    const res = await postApi(todo, todoId + `${todoList.length}`);
+    printValue();
+  };
+  async function postTodo() {
+    const res = await postApi(todo, todoId + `${cnt.current}`);
+    cnt.current++;
     console.log(res);
     await getTodo();
     setTodo('');
@@ -32,11 +50,11 @@ export default function Todo() {
       await getTodo();
     })();
   }, []);
-  console.log(todoId);
+  //console.log(todoId);
   return (
     <div className={`container ${styles.container}`}>
       <h2>{today.join('')}</h2>
-      <form onSubmit={postTodo} style={{ position: 'relative' }}>
+      <form onSubmit={processChange} style={{ position: 'relative' }}>
         <input
           type="text"
           value={todo}
@@ -64,13 +82,4 @@ export default function Todo() {
       </ul>
     </div>
   );
-}
-const initState = {
-  id: '',
-  todo: {},
-};
-function reducer(state, action) {
-  switch (action.type) {
-    case 'CREATE_TODO':
-  }
 }

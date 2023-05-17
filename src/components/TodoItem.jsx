@@ -1,8 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { deleteApi, putApi } from '@/api/api';
 import styles from '@/styles/TodoItem.module.scss';
-import { useContext } from 'react';
-import Context from '../store/store';
 
 export default function TodoItem({ todo, id, order, done, created, updated }) {
   const check = useRef(done);
@@ -27,9 +25,8 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
   const [toggleEdit, setToggleEdit] = useState(false);
   async function removeTodo() {
     const res = await deleteApi(id);
-    setIsDel(true);
+    setIsDel(res);
     console.log(res);
-    dispatch({ type: 'DEL_TODO', id });
   }
   async function editTodo() {
     const res = await putApi(id, editData);
@@ -42,15 +39,9 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
     });
   }
 
-  const { dispatch } = useContext(Context);
   useEffect(() => {
     editTodo();
-    dispatch({ type: 'EDIT_TODO', id: editData.order, title: editData.title });
   }, [editData]);
-
-  useEffect(() => {
-    dispatch({ type: 'ADD_TODO', id: order, title: todo, order: order });
-  }, []);
 
   return (
     <>
