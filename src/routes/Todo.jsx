@@ -1,16 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { postApi, getApi } from '../api/api';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { postApi, getApi } from '@/api/api';
 import TodoItem from '@/components/TodoItem';
 import styles from '@/styles/Todo.module.scss';
-import { useCallback } from 'react';
+import { useContext } from 'react';
+import Context from '../store/store';
 
 export default function Todo() {
   const [todo, setTodo] = useState('');
   const [todoList, setTodoList] = useState([]);
   const { todoId } = useParams();
-  const today = todoId.split('').slice(2);
-  today.splice(2, 0, '/');
+  const today = useMemo(() => {
+    const id = todoId.split('').slice(2);
+    id.splice(2, 0, '/');
+    return id;
+  }, []);
   const cnt = useRef(0);
 
   const printValue = useCallback(debounce(postTodo));
@@ -46,14 +50,14 @@ export default function Todo() {
     setTodoList(dayTodos);
   }
   useEffect(() => {
-    (async () => {
-      await getTodo();
-    })();
+    getTodo();
   }, []);
-  //console.log(todoId);
+
+  const { value } = useContext(Context);
   return (
     <div className={`container ${styles.container}`}>
-      <h2>{today.join('')}</h2>
+      <Link to="/">home</Link>
+      <h2 className={value ? 'dark-mode--text' : ''}>{today.join('')}</h2>
       <form onSubmit={processChange} style={{ position: 'relative' }}>
         <input
           type="text"
@@ -67,18 +71,20 @@ export default function Todo() {
       </form>
       <ul>
         {todoList
-          ? todoList.map((todo) => (
-              <TodoItem
-                key={todo.id}
-                id={todo.id}
-                todo={todo.title}
-                order={todo.order}
-                done={todo.done}
-                created={new Date(todo.createdAt)}
-                updated={new Date(todo.updatedAt)}
-              />
-            ))
-          : null}
+          ? todoList.map((todo) => {
+              return (
+                <TodoItem
+                  key={todo.id}
+                  id={todo.id}
+                  todo={todo.title}
+                  order={todo.order}
+                  done={todo.done}
+                  created={new Date(todo.createdAt)}
+                  updated={new Date(todo.updatedAt)}
+                />
+              );
+            })
+          : 'isLoading...'}
       </ul>
     </div>
   );

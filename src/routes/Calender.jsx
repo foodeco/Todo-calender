@@ -1,39 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Body from '@/components/Body';
 import Head from '@/components/Head';
-
-const YMD = new Date();
-const year = YMD.getFullYear();
-const month = YMD.getMonth() + 1;
+import generateCalender from '@/common/calender';
+import { useContext } from 'react';
+import Context from '../store/store';
 
 export default function Calender() {
-  const [whatMonth, setWhatMonth] = useState(month);
-  const [whatYear, setWhatYear] = useState(year);
+  const [whatYear, setWhatYear] = useState(new Date().getFullYear());
+  const [whatMonth, setWhatMonth] = useState(new Date().getMonth() + 1);
   const [totalDates, setTotalDates] = useState(0);
-
-  function generateCalender(month) {
-    const prevDates = new Date(year, month - 1, 0);
-    const lastDates = new Date(year, month, 0);
-
-    let beforeDates = [];
-    for (let i = 0; i < prevDates.getDay() + 1; i++) {
-      beforeDates.unshift(prevDates.getDate() - i);
-    }
-
-    let nextDates = [];
-    for (let i = 1; i < 7 - lastDates.getDay(); i++) {
-      if (i === 0) {
-        return nextDates;
-      }
-      nextDates.push(i);
-    }
-
-    let thisDates = [];
-    thisDates = [...Array(lastDates.getDate() + 1).keys()].slice(1);
-
-    return beforeDates.concat(thisDates, nextDates);
-  }
-  //console.log(generateCalender(month));
+  const body = document.body;
+  const { value } = useContext(Context);
+  useEffect(() => {
+    body.style.backgroundColor = value
+      ? 'rgba(0, 0, 0, 0.96)'
+      : 'rgba(255, 253, 244, 0.96)';
+  }, [value]);
+  const makeCalender = useCallback(
+    (month) => {
+      setTotalDates(generateCalender(month));
+    },
+    [whatMonth]
+  );
   useEffect(() => {
     if (!whatMonth) {
       setWhatYear(whatYear - 1);
@@ -42,7 +30,7 @@ export default function Calender() {
       setWhatYear(whatYear + 1);
       setWhatMonth(1);
     }
-    setTotalDates(generateCalender(whatMonth));
+    makeCalender(whatMonth);
   }, [whatMonth]);
 
   return (

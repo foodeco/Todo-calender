@@ -7,14 +7,14 @@ import { useState } from 'react';
 export default function Body({ totalDates, year, month }) {
   const firstDate = Array.isArray(totalDates) ? totalDates.indexOf(1) : '';
   const lastDate = Array.isArray(totalDates) ? totalDates.indexOf(1, 7) : '';
-  console.log(firstDate, lastDate);
-  console.log(year, month);
+  //console.log(firstDate, lastDate);
+  //console.log(year, month);
   const [todo, setTodo] = useState([]);
   useEffect(() => {
     (async () => {
       const res = await getApi(); // array
       setTodo(res);
-      console.log(res);
+      //console.log(res);
     })();
   }, []);
   return (
@@ -23,7 +23,6 @@ export default function Body({ totalDates, year, month }) {
         {totalDates
           ? totalDates.map((date, idx) => {
               if (idx < firstDate) {
-                console.log(todo);
                 return (
                   <Date1
                     key={idx}
@@ -57,7 +56,7 @@ export default function Body({ totalDates, year, month }) {
                 />
               );
             })
-          : ''}
+          : 'is Loading...'}
       </div>
     </>
   );

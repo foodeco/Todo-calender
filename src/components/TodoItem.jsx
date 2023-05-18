@@ -1,11 +1,17 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { deleteApi, putApi } from '@/api/api';
 import styles from '@/styles/TodoItem.module.scss';
+import { useContext } from 'react';
+import Context from '../store/store';
 
 export default function TodoItem({ todo, id, order, done, created, updated }) {
   const check = useRef(done);
-  const splitCreated = created.toString().split(' ');
-  const splitUpdated = updated.toString().split(' ');
+  const splitCreated = useMemo(() => {
+    return created.toString().split(' ');
+  }, []);
+  const splitUpdated = useMemo(() => {
+    return updated.toString().split(' ');
+  }, [updated]);
   const createdTime = `${splitCreated[1]} ${
     splitCreated[2]
   } (${splitCreated[4].slice(0, 5)})`;
@@ -14,7 +20,6 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
     date: splitUpdated[2],
     time: splitUpdated[4].slice(0, 5).slice(0, 5),
   });
-  //console.log(created.toString().split(' '));
   const [title, setTitle] = useState(todo);
   const [isDel, setIsDel] = useState(false);
   const [editData, setEditData] = useState({
@@ -23,12 +28,13 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
     order: order,
   });
   const [toggleEdit, setToggleEdit] = useState(false);
-  async function removeTodo() {
+  const [isEdit, setIsEdit] = useState(false);
+
+  const removeTodo = useCallback(async () => {
     const res = await deleteApi(id);
     setIsDel(res);
-    console.log(res);
-  }
-  async function editTodo() {
+  }, [isDel]);
+  const editTodo = useCallback(async () => {
     const res = await putApi(id, editData);
     const newTime = new Date(res.updatedAt).toString().split(' ');
     check.current = res.done;
@@ -37,18 +43,24 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
       date: newTime[2],
       time: newTime[4].slice(0, 5),
     });
-  }
-
-  useEffect(() => {
-    editTodo();
   }, [editData]);
 
+  useEffect(() => {
+    if (isEdit) {
+      editTodo();
+      setIsEdit(false);
+    }
+  }, [editData, isEdit]);
+
+  const { value } = useContext(Context);
   return (
     <>
       {!isDel ? (
-        <div className={styles.todoItem}>
+        <div
+          className={`${styles.todoItem} ${value ? '.dark-mode--border' : ''}`}
+        >
           <input
-            id="checkbox"
+            id={order}
             type="checkbox"
             value={check.current}
             defaultChecked={check.current}
@@ -58,16 +70,27 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
                 ...editData,
                 done: check.current,
               });
+              setIsEdit(true);
             }}
           />
-          <label htmlFor="checkbox"></label>
+          <label htmlFor={order}></label>
 
           <div className={styles.contents}>
-            <span className={styles.time}>{createdTime}</span>
-            <div className={styles.content}>
+            <span
+              className={`${styles.time} ${value ? 'dark-mode--text' : ''}`}
+            >
+              {createdTime}
+            </span>
+            <div
+              className={`${styles.content} ${value ? 'dark-mode--text' : ''}`}
+            >
               {!toggleEdit ? (
                 <>
-                  <div className={`${check.current ? styles.check : ''}`}>
+                  <div
+                    className={`${check.current ? styles.check : ''} ${
+                      value ? 'dark-mode--text' : ''
+                    }`}
+                  >
                     {title}
                   </div>
                   <span className={styles.time}>
@@ -84,6 +107,7 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
                       title: title,
                     });
                     setToggleEdit(!toggleEdit);
+                    setIsEdit(true);
                   }}
                   style={{ width: 100 + '%' }}
                 >

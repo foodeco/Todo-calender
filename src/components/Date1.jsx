@@ -21,13 +21,19 @@ export default function Date1({
         TODAY === date ? 'today' : ''
       }`}
     >
-      {<div className="date">{date}</div>}
+      <div className="date">{date}</div>
       {todolist.map((todo) => {
         if (String(todo.order).includes(id)) {
-          return <div key={todo.order}>{todo.title}</div>;
+          return (
+            <div
+              key={todo.order}
+              className={`preview ${todo.done ? 'done' : ''}`}
+            >
+              {todo.title}
+            </div>
+          );
         }
       })}
-      <div></div>
     </Link>
   );
 }

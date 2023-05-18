@@ -7,6 +7,15 @@ body {
   font-family: 'Rubik', sans-serif;
   background-color: rgba(255, 253, 244, 0.96);
 }
+header,
+footer {
+  height: 100px;
+  background-color: #f5f2e8;
+}
+header {
+  display: flex;
+  justify-content: space-evenly;
+}
 input[type='text'] {
   width: 100%;
   padding: 8px 15px;
@@ -17,6 +26,17 @@ input[type='text'] {
     border: none;
     box-shadow: 0 0 3px #dfbd43;
   }
+}
+.preview {
+  margin: 5px 0;
+}
+a {
+  color: #444444;
+  overflow-y: scroll;
+}
+.done {
+  text-decoration: line-through;
+  color: #d6d6d6;
 }
 .container {
   width: 1340px;
@@ -80,5 +100,57 @@ input[type='text'] {
     bottom: 0;
     left: 10px;
     margin: auto;
+  }
+}
+
+.dark-mode--text {
+  color: #fff;
+}
+.dark-mode--border {
+  border: 2px solid #d6d6d6;
+}
+#switch {
+  visibility: hidden;
+  position: absolute;
+}
+.switch-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
+  position: relative;
+  cursor: pointer;
+  transition: 0.5s ease;
+  .toggle {
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background-color: pink;
+    position: absolute;
+    left: 3px;
+    transition: 0.5s ease;
+  }
+}
+.toggle-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#switch:checked {
+  ~ .switch-label {
+    transition: 0.5s ease;
+    background-color: pink;
+    border: none;
+    .toggle {
+      height: 12.5px;
+      transform: scale(0.9) translateX(75px) rotate(90deg);
+      transition: 0.7s ease;
+      border-radius: 25px 25px 0 0;
+      background-color: transparent;
+      box-shadow: 0 -6px 0 0 white;
+    }
   }
 }
