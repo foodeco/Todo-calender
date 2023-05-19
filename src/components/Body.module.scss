@@ -2,15 +2,15 @@
   display: flex;
   flex-wrap: wrap;
   border: 1px solid #d6d6d6;
-  a {
-    width: calc(100% / 7);
-    height: 150px;
-    padding: 10px;
-    text-decoration: none;
-    transition: 0.3s;
+}
+a {
+  width: calc(100% / 7);
+  height: 150px;
+  padding: 10px;
+  text-decoration: none;
+  transition: 0.3s;
 
-    &:hover {
-      background-color: #dfbd43;
-    }
+  &:hover {
+    background-color: #dfbd43;
   }
 }

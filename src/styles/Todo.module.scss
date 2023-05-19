@@ -5,6 +5,11 @@
   h2 {
     color: #444444;
   }
+  a {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+  }
   .a {
     width: 500px;
     height: 45px;
@@ -19,5 +24,25 @@
     padding: 0;
     width: 80%;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    h6 {
+      font-weight: 400;
+      font-size: 16px;
+      user-select: none;
+      color: #494857;
+      -webkit-user-select: none;
+      cursor: default;
+      & span:nth-child(1) {
+        color: #9ec285;
+      }
+      & span:nth-child(2) {
+        color: #5d8cae;
+      }
+      & span:nth-child(3) {
+        color: #df67a3;
+      }
+    }
   }
 }

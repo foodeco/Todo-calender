@@ -1,3 +1,7 @@
+import { useContext } from 'react';
+import Context from '@/store/store';
+
 export default function TheFooter() {
-  return <footer>footer line</footer>;
+  const { value } = useContext(Context);
+  return <footer className={value ? 'dark-mode--bc' : ''}>footer line</footer>;
 }

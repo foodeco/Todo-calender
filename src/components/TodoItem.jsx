@@ -1,14 +1,26 @@
-import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
+import {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useContext,
+} from 'react';
 import { deleteApi, putApi } from '@/api/api';
 import styles from '@/styles/TodoItem.module.scss';
-import { useContext } from 'react';
-import Context from '../store/store';
+import Context from '@/store/store';
 
-export default function TodoItem({ todo, id, order, done, created, updated }) {
+export default function TodoItem({
+  todo,
+  id,
+  order,
+  done,
+  created,
+  updated,
+  del,
+}) {
   const check = useRef(done);
-  const splitCreated = useMemo(() => {
-    return created.toString().split(' ');
-  }, []);
+  const splitCreated = created.toString().split(' ');
   const splitUpdated = useMemo(() => {
     return updated.toString().split(' ');
   }, [updated]);
@@ -31,18 +43,27 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
   const [isEdit, setIsEdit] = useState(false);
 
   const removeTodo = useCallback(async () => {
-    const res = await deleteApi(id);
-    setIsDel(res);
+    try {
+      const res = await deleteApi(id);
+      setIsDel(res);
+      del(res);
+    } catch (err) {
+      console.log(err);
+    }
   }, [isDel]);
   const editTodo = useCallback(async () => {
-    const res = await putApi(id, editData);
-    const newTime = new Date(res.updatedAt).toString().split(' ');
-    check.current = res.done;
-    setUpdated({
-      month: newTime[1],
-      date: newTime[2],
-      time: newTime[4].slice(0, 5),
-    });
+    try {
+      const res = await putApi(id, editData);
+      const newTime = new Date(res.updatedAt).toString().split(' ');
+      check.current = res.done;
+      setUpdated({
+        month: newTime[1],
+        date: newTime[2],
+        time: newTime[4].slice(0, 5),
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }, [editData]);
 
   useEffect(() => {
@@ -114,6 +135,7 @@ export default function TodoItem({ todo, id, order, done, created, updated }) {
                   <input
                     type="text"
                     value={title}
+                    autoFocus
                     onChange={(e) => {
                       setTitle(e.target.value);
                     }}

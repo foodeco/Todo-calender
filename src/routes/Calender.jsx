@@ -1,9 +1,8 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useContext } from 'react';
 import Body from '@/components/Body';
 import Head from '@/components/Head';
 import generateCalender from '@/common/calender';
-import { useContext } from 'react';
-import Context from '../store/store';
+import Context from '@/store/store';
 
 export default function Calender() {
   const [whatYear, setWhatYear] = useState(new Date().getFullYear());

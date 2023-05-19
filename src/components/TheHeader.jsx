@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import Context from '../store/store';
+import Context from '@/store/store';
 
 export default function TheHeader() {
   const { value, setValue } = useContext(Context);
   return (
-    <header>
-      <h1>Todo Calender</h1>
+    <header className={value ? 'dark-mode--bc' : ''}>
+      <h1 className={value ? 'dark-mode--text' : ''}>Todo Calender</h1>
 
       <div className="toggle-btn">
         <input
