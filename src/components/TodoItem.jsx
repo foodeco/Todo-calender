@@ -13,8 +13,8 @@ import Context from '@/store/store';
 export default function TodoItem({
   todo,
   id,
-  order,
   done,
+  today,
   created,
   updated,
   refresh,
@@ -32,12 +32,12 @@ export default function TodoItem({
     date: splitUpdated[2],
     time: splitUpdated[4].slice(0, 5).slice(0, 5),
   });
-  const [title, setTitle] = useState(todo);
+  const trimTodo = todo.replace(`[${today}]`, '');
+  const [title, setTitle] = useState(trimTodo);
   const [isDel, setIsDel] = useState(false);
   const [editData, setEditData] = useState({
-    title: todo,
+    title: trimTodo,
     done: done,
-    order: order,
   });
   const [toggleEdit, setToggleEdit] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -53,7 +53,10 @@ export default function TodoItem({
   }, [isDel]);
   const editTodo = useCallback(async () => {
     try {
-      const res = await putApi(id, editData);
+      const res = await putApi(id, {
+        ...editData,
+        title: `[${today}]` + editData.title,
+      });
       const newTime = new Date(res.updatedAt).toString().split(' ');
       check.current = res.done;
       setUpdated({
@@ -91,7 +94,7 @@ export default function TodoItem({
           className={`${styles.todoItem} ${value ? '.dark-mode--border' : ''}`}
         >
           <input
-            id={order}
+            id={id}
             type="checkbox"
             value={check.current}
             defaultChecked={check.current}
@@ -105,7 +108,7 @@ export default function TodoItem({
               refresh(check.current);
             }}
           />
-          <label htmlFor={order}></label>
+          <label htmlFor={id}></label>
 
           <div className={styles.contents}>
             <span

@@ -15,7 +15,7 @@ export default function Date1({
   month = month < 10 ? '0' + month : month;
   date = date < 10 ? '0' + date : date;
   const id = year + '' + month + '' + date;
-  const preview = todolist.filter((todo) => String(todo.order).includes(id));
+  const preview = todolist.filter((todo) => todo.title.includes(id));
   const { value } = useContext(Context);
   const doneCheck = preview ? preview.filter((pre) => pre.done) : '';
   return (
@@ -44,12 +44,12 @@ export default function Date1({
       {preview
         ? preview.map((v) => (
             <div
-              key={v.order}
+              key={v.id}
               className={`preview ${v.done ? 'done' : ''} ${
                 value ? 'dark' : ''
               }`}
             >
-              {v.title}
+              {v.title.replace(`[${id}]`, '')}
             </div>
           ))
         : 'test'}

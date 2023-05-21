@@ -27,6 +27,14 @@ export default function Todo() {
   const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRefresh] = useState('');
   const [isSubmit, setIsSubmit] = useState(false);
+  const [sort, setSort] = useState(false);
+  const { value } = useContext(Context);
+  const body = document.body;
+  useEffect(() => {
+    body.style.backgroundColor = value
+      ? 'rgba(0, 0, 0, 0.96)'
+      : 'rgba(255, 253, 244, 0.96)';
+  }, [value]);
 
   const debounce = useCallback((cb, timeout = 300) => {
     let timer;
@@ -37,22 +45,9 @@ export default function Todo() {
       }, timeout);
     };
   }, []);
-  /*
   const postTodo = useCallback(async () => {
     try {
-      const res = await postApi(title, todoId + `${cnt.current}`);
-      cnt.current++;
-      console.log(res);
-      await getTodo();
-      setTitle('');
-    } catch (err) {
-      console.log(err);
-    }
-  }, [isSubmit]);
-  */
-  const postTodo = useCallback(async () => {
-    try {
-      const res = await postApi(title, todoId + `${cnt.current}`);
+      const res = await postApi(`[${todoId}]` + title);
       cnt.current++;
       console.log(res);
       await getTodo();
@@ -74,7 +69,7 @@ export default function Todo() {
       setIsLoading(true);
       const res = await getApi();
       const dayTodos = res.filter((dayTodo) => {
-        if (dayTodo.order.toString().includes(`${todoId}`)) {
+        if (dayTodo.title.includes(`${todoId}`)) {
           return dayTodo;
         }
       });
@@ -88,23 +83,28 @@ export default function Todo() {
       setIsSubmit(false);
     }
   }, []);
-  async function reorderTodo() {
+  const reorderTodo = useCallback(async () => {
     const todoIds = todoList.map((todo) => todo.id);
     await reorderApi(todoIds);
-  }
+    setSort(false);
+  }, [todoList]);
   useEffect(() => {
     getTodo();
-  }, [refresh]);
-  const { value } = useContext(Context);
-  const body = document.body;
+  }, []);
   useEffect(() => {
-    body.style.backgroundColor = value
-      ? 'rgba(0, 0, 0, 0.96)'
-      : 'rgba(255, 253, 244, 0.96)';
-  }, [value]);
+    if (refresh) {
+      getTodo();
+    }
+  }, [refresh]);
+  useEffect(() => {
+    if (sort) {
+      reorderTodo();
+    }
+  }, [todoList, sort]);
+
   return (
     <div className={`container ${styles.container}`}>
-      <Link to="/" className="btn" id="home" onClick={reorderTodo}></Link>
+      <Link to="/" className="btn" id="home"></Link>
       <h2 className={value ? 'dark-mode--text' : ''}>{today.join('')}</h2>
       <form
         onSubmit={(e) => {
@@ -116,7 +116,7 @@ export default function Todo() {
         <input
           type="text"
           value={title}
-          className={styles.a}
+          className={styles.title}
           autoFocus
           onChange={(e) => {
             setTitle(e.target.value);
@@ -139,6 +139,9 @@ export default function Todo() {
             setList={setTodoList}
             animation="200"
             easing="ease-out"
+            onEnd={() => {
+              setSort(true);
+            }}
           >
             {todoList.map((todo) => {
               return (
@@ -146,8 +149,8 @@ export default function Todo() {
                   key={todo.id}
                   id={todo.id}
                   todo={todo.title}
-                  order={todo.order}
                   done={todo.done}
+                  today={todoId}
                   created={new Date(todo.createdAt)}
                   updated={new Date(todo.updatedAt)}
                   refresh={setRefresh}

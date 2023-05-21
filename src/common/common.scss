@@ -97,6 +97,10 @@ a {
 }
 #home {
   background-image: url(/assets/home.svg);
+  background-color: transparent;
+  &:hover {
+    transform: scale(1.2);
+  }
 }
 .btn {
   padding: 0;
