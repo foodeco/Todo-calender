@@ -5,7 +5,7 @@ export default function TheHeader() {
   const { value, setValue } = useContext(Context);
   return (
     <header className={value ? 'dark-mode--bc' : ''}>
-      <h1 className={value ? 'dark-mode--text' : ''}>Todo Calender</h1>
+      <h1 className={value ? 'dark-mode--text' : ''}>Todo Calendar</h1>
 
       <div className="toggle-btn">
         <input

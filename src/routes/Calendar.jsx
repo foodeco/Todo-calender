@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback, useContext } from 'react';
 import Body from '@/components/Body';
 import Head from '@/components/Head';
-import generateCalender from '@/common/calender';
+import generateCalendar from '@/common/calendar';
 import Context from '@/store/store';
 
-export default function Calender() {
+export default function Calendar() {
   const [whatYear, setWhatYear] = useState(new Date().getFullYear());
   const [whatMonth, setWhatMonth] = useState(new Date().getMonth() + 1);
   const [totalDates, setTotalDates] = useState(0);
@@ -15,9 +15,9 @@ export default function Calender() {
       ? 'rgba(0, 0, 0, 0.96)'
       : 'rgba(255, 253, 244, 0.96)';
   }, [value]);
-  const makeCalender = useCallback(
+  const makeCalendar = useCallback(
     (month) => {
-      setTotalDates(generateCalender(month));
+      setTotalDates(generateCalendar(month));
     },
     [whatMonth]
   );
@@ -29,7 +29,7 @@ export default function Calender() {
       setWhatYear(whatYear + 1);
       setWhatMonth(1);
     }
-    makeCalender(whatMonth);
+    makeCalendar(whatMonth);
   }, [whatMonth]);
 
   return (

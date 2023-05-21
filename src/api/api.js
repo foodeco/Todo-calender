@@ -33,7 +33,7 @@ export async function getApi() {
   );
   const json = await res.json();
   console.log(json);
-  return json; // to-do array
+  return json;
 }
 
 export async function putApi(id, data) {
@@ -66,7 +66,6 @@ export async function deleteApi(id) {
     }
   );
   const json = await res.json();
-  console.log(json);
   return json;
 }
 
@@ -87,5 +86,3 @@ export async function reorderApi(todoIds) {
   );
   console.log(res);
 }
-
-//deleteApi('h41PquURvfmx74OwHMgD');

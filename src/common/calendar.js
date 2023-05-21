@@ -1,7 +1,7 @@
 const YMD = new Date();
 const year = YMD.getFullYear();
 
-export default function generateCalender(month) {
+export default function generateCalendar(month) {
   const prevDates = new Date(year, month - 1, 0);
   const lastDates = new Date(year, month, 0);
 

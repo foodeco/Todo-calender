@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import HomeLayout from './HomeLayout';
 import Todo from './Todo';
-import Calender from './Calender';
+import Calendar from './Calendar';
 export default createBrowserRouter([
   {
     path: '/',
@@ -9,7 +9,7 @@ export default createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Calender />,
+        element: <Calendar />,
       },
     ],
   },
