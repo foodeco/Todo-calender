@@ -11,10 +11,10 @@ export default createBrowserRouter([
         index: true,
         element: <Calender />,
       },
-      {
-        path: 'todo/:todoId',
-        element: <Todo />,
-      },
     ],
+  },
+  {
+    path: '/todo/:todoId',
+    element: <Todo />,
   },
 ]);

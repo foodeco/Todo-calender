@@ -69,3 +69,21 @@ export async function deleteApi(id) {
   console.log(json);
   return json;
 }
+
+export async function reorderApi(todoIds) {
+  const res = await fetch(
+    'https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos/reorder',
+    {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        apikey: 'KDT5_nREmPe9B',
+        username: 'KDT5_SeoDongUk',
+      },
+      body: JSON.stringify({
+        todoIds: todoIds,
+      }),
+    }
+  );
+  console.log(res);
+}

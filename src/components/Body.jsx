@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function Body({ totalDates, year, month }) {
   const firstDate = Array.isArray(totalDates) ? totalDates.indexOf(1) : '';
-  const lastDate = Array.isArray(totalDates) ? totalDates.indexOf(1, 7) : '';
+  const lastDate = Array.isArray(totalDates) ? totalDates.indexOf(1, 8) : '';
   const [todo, setTodo] = useState([]);
   useEffect(() => {
     (async () => {
@@ -29,7 +29,7 @@ export default function Body({ totalDates, year, month }) {
                     todo={todo}
                   />
                 );
-              } else if (idx >= lastDate) {
+              } else if (lastDate > 0 && idx >= lastDate) {
                 return (
                   <Date1
                     key={idx}

@@ -17,15 +17,30 @@ export default function Date1({
   const id = year + '' + month + '' + date;
   const preview = todolist.filter((todo) => String(todo.order).includes(id));
   const { value } = useContext(Context);
-
+  const doneCheck = preview ? preview.filter((pre) => pre.done) : '';
   return (
     <Link
       to={`/todo/${id}`}
       className={`date-link ${
         thisMonth === +month ? '' : `${value ? 'dark-mode--gray' : 'gray'}`
-      } ${TODAY === date ? 'today' : ''} ${value ? 'dark-mode--bc' : ''}`}
+      } ${
+        new Date().getMonth() + 1 === +month
+          ? TODAY === date
+            ? 'today'
+            : ''
+          : ''
+      } ${value ? 'dark-mode--bc' : ''}`}
     >
-      <div className="date">{date}</div>
+      <div className="date-header">
+        <div className="date">{date}</div>
+        {preview.length ? (
+          <progress
+            id="progress"
+            value={doneCheck.length}
+            max={preview.length}
+          />
+        ) : null}
+      </div>
       {preview
         ? preview.map((v) => (
             <div

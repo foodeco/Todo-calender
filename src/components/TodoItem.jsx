@@ -17,7 +17,7 @@ export default function TodoItem({
   done,
   created,
   updated,
-  del,
+  refresh,
 }) {
   const check = useRef(done);
   const splitCreated = created.toString().split(' ');
@@ -46,7 +46,7 @@ export default function TodoItem({
     try {
       const res = await deleteApi(id);
       setIsDel(res);
-      del(res);
+      refresh(res);
     } catch (err) {
       console.log(err);
     }
@@ -65,6 +65,16 @@ export default function TodoItem({
       console.log(err);
     }
   }, [editData]);
+  const editBtn = useCallback(() => {
+    if (!isEdit && toggleEdit) {
+      setIsEdit(true);
+      setEditData({
+        ...editData,
+        title: title,
+      });
+    }
+    setToggleEdit(!toggleEdit);
+  }, [toggleEdit, title]);
 
   useEffect(() => {
     if (isEdit) {
@@ -92,6 +102,7 @@ export default function TodoItem({
                 done: check.current,
               });
               setIsEdit(true);
+              refresh(check.current);
             }}
           />
           <label htmlFor={order}></label>
@@ -146,13 +157,7 @@ export default function TodoItem({
           </div>
 
           <div className="btn-group">
-            <button
-              id="edit"
-              className="btn"
-              onClick={() => {
-                setToggleEdit(!toggleEdit);
-              }}
-            />
+            <button id="edit" className="btn" onClick={editBtn} />
             {!toggleEdit ? (
               <button id="delete" className="btn" onClick={removeTodo} />
             ) : null}
