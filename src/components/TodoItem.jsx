@@ -16,9 +16,9 @@ TodoItem.propTypes = {
   id: PropTypes.string,
   done: PropTypes.bool,
   today: PropTypes.string,
-  created: PropTypes.string,
-  updated: PropTypes.string,
-  refresh: PropTypes.bool,
+  created: PropTypes.object,
+  updated: PropTypes.object,
+  refresh: PropTypes.func,
 };
 
 export default function TodoItem({

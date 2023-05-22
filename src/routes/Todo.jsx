@@ -47,6 +47,10 @@ export default function Todo() {
   }, []);
   const postTodo = useCallback(async () => {
     try {
+      if (!title.trim()) {
+        alert('Enter your plan!');
+        return;
+      }
       const res = await postApi(`[${todoId}]` + title);
       cnt.current++;
       console.log(res);
