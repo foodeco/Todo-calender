@@ -7,7 +7,7 @@ import Context from '@/store/store';
 export default function Calendar() {
   const [whatYear, setWhatYear] = useState(new Date().getFullYear());
   const [whatMonth, setWhatMonth] = useState(new Date().getMonth() + 1);
-  const [totalDates, setTotalDates] = useState(0);
+  const [totalDates, setTotalDates] = useState([]);
   const body = document.body;
   const { value } = useContext(Context);
   useEffect(() => {

@@ -25,7 +25,7 @@ export default function Todo() {
   }, []);
   const cnt = useRef(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [refresh, setRefresh] = useState('');
+  const [refresh, setRefresh] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [sort, setSort] = useState(false);
   const { value } = useContext(Context);

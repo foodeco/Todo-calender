@@ -1,6 +1,13 @@
 import { useContext } from 'react';
 import Context from '@/store/store';
 import styles from './Head.module.scss';
+import PropTypes from 'prop-types';
+
+Head.propTypes = {
+  setWhatMonth: PropTypes.func,
+  year: PropTypes.number,
+  month: PropTypes.number,
+};
 
 const dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 export default function Head({ setWhatMonth, year, month }) {

@@ -2,11 +2,12 @@
 
 매일 일정 관리를 하며 지난 날의 **달성률**을 확인해보세요!
 
-> 버그 발견하시면 알려주세요..ㅎㅎ :grin:
+> 버그 발견하시면 알려주세요ㅎㅎ :grin:
+> 계속 수정 중... :wrench:
 
 ## :link: 링크
 
-[배포 사이트](https://kdt5-seodonguk--moonlit-dodol-6b1113.netlify.app/)
+[배포 사이트](https://kdt5-todo-calendar.netlify.app/)
 
 ### ❗ 필수
 
@@ -30,7 +31,12 @@
 
 ### :rocket: 추가 기능
 
+- 환경변수에 api key 저장
 - 다크 모드
 - 요일별 Todo 기록
 - progress bar를 통한 일일 달성률 확인
   - 일부 브라우저에서 스타일이 제대로 적용 안될 수 있음
+
+### :warning: 오류
+
+- ~~.env 사용 시 netlify 배포 오류~~(23.05.22)

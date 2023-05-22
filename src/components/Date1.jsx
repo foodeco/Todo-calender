@@ -1,6 +1,15 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Context from '@/store/store';
+import PropTypes from 'prop-types';
+
+Date1.propTypes = {
+  year: PropTypes.number,
+  month: PropTypes.number,
+  thisMonth: PropTypes.number,
+  date: PropTypes.number,
+  todos: PropTypes.array,
+};
 
 // 해당 날짜 투두 개수 출력
 export default function Date1({ year, month, thisMonth, date, todos }) {
@@ -9,11 +18,9 @@ export default function Date1({ year, month, thisMonth, date, todos }) {
   month = month < 10 ? '0' + month : month;
   date = date < 10 ? '0' + date : date;
   const id = year + '' + month + '' + date;
-  const preview = Array.isArray(todos)
-    ? todos.filter((todo) => todo.title.includes(id))
-    : null;
+  const preview = todos.filter((todo) => todo.title.includes(id));
   const { value } = useContext(Context);
-  const doneCheck = preview ? preview.filter((pre) => pre.done) : '';
+  const doneCheck = preview.filter((pre) => pre.done);
   return (
     <Link
       to={`/todo/${id}`}

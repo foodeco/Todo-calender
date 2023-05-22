@@ -9,6 +9,17 @@ import {
 import { deleteApi, putApi } from '@/api/api';
 import styles from '@/styles/TodoItem.module.scss';
 import Context from '@/store/store';
+import PropTypes from 'prop-types';
+
+TodoItem.propTypes = {
+  todo: PropTypes.string,
+  id: PropTypes.string,
+  done: PropTypes.bool,
+  today: PropTypes.string,
+  created: PropTypes.string,
+  updated: PropTypes.string,
+  refresh: PropTypes.bool,
+};
 
 export default function TodoItem({
   todo,
