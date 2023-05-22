@@ -26,7 +26,7 @@ export default function Body({ totalDates, year, month }) {
                     month={month - 1}
                     thisMonth={month}
                     date={date}
-                    todo={todo}
+                    todos={todo}
                   />
                 );
               } else if (lastDate > 0 && idx >= lastDate) {
@@ -37,7 +37,7 @@ export default function Body({ totalDates, year, month }) {
                     month={month + 1}
                     thisMonth={month}
                     date={date}
-                    todo={todo}
+                    todos={todo}
                   />
                 );
               }
@@ -48,7 +48,7 @@ export default function Body({ totalDates, year, month }) {
                   month={month}
                   thisMonth={month}
                   date={date}
-                  todo={todo}
+                  todos={todo}
                 />
               );
             })
