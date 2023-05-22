@@ -2,6 +2,8 @@
 
 매일 일정 관리를 하며 지난 날의 **달성률**을 확인해보세요!
 
+> 버그 발견하시면 알려주세요..ㅎㅎ :grin:
+
 ## :link: 링크
 
 [배포 사이트](https://kdt5-seodonguk--moonlit-dodol-6b1113.netlify.app/)
