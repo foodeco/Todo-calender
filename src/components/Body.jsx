@@ -16,7 +16,7 @@ export default function Body({ totalDates, year, month }) {
   return (
     <>
       <div className={styles.container}>
-        {totalDates
+        {totalDates.length
           ? totalDates.map((date, idx) => {
               if (idx < firstDate) {
                 return (
