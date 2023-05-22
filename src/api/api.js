@@ -1,3 +1,5 @@
+const { VITE_TODO_API_KEY, VITE_TODO_USER_NAME } = import.meta.env;
+
 export async function postApi(todo, order) {
   const res = await fetch(
     'https://asia-northeast3-heropy-api.cloudfunctions.net/api/todos',
@@ -5,8 +7,8 @@ export async function postApi(todo, order) {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        apikey: 'KDT5_nREmPe9B',
-        username: 'KDT5_SeoDongUk',
+        apikey: VITE_TODO_API_KEY,
+        username: VITE_TODO_USER_NAME,
       },
       body: JSON.stringify({
         title: todo,
@@ -26,8 +28,8 @@ export async function getApi() {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
-        apikey: 'KDT5_nREmPe9B',
-        username: 'KDT5_SeoDongUk',
+        apikey: VITE_TODO_API_KEY,
+        username: VITE_TODO_USER_NAME,
       },
     }
   );
@@ -43,8 +45,8 @@ export async function putApi(id, data) {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
-        apikey: 'KDT5_nREmPe9B',
-        username: 'KDT5_SeoDongUk',
+        apikey: VITE_TODO_API_KEY,
+        username: VITE_TODO_USER_NAME,
       },
       body: JSON.stringify(data),
     }
@@ -60,8 +62,8 @@ export async function deleteApi(id) {
     {
       method: 'DELETE',
       headers: {
-        apikey: 'KDT5_nREmPe9B',
-        username: 'KDT5_SeoDongUk',
+        apikey: VITE_TODO_API_KEY,
+        username: VITE_TODO_USER_NAME,
       },
     }
   );
@@ -76,8 +78,8 @@ export async function reorderApi(todoIds) {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
-        apikey: 'KDT5_nREmPe9B',
-        username: 'KDT5_SeoDongUk',
+        apikey: VITE_TODO_API_KEY,
+        username: VITE_TODO_USER_NAME,
       },
       body: JSON.stringify({
         todoIds: todoIds,
