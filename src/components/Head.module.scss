@@ -5,7 +5,6 @@
     display: flex;
   }
   .days {
-    //width: 100%;
     div {
       width: calc(100% / 7);
     }
@@ -17,7 +16,5 @@
     h2 {
       font-weight: 600;
     }
-  }
-  .btnGroup {
   }
 }
