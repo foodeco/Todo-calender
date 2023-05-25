@@ -32,7 +32,7 @@ export default function Head({ setWhatMonth, year, month }) {
           </button>
         </div>
       </div>
-      <div className={`${styles.days} days`}>
+      <div className={styles.days}>
         {dayList.map((day) => (
           <div key={day}>{day}</div>
         ))}

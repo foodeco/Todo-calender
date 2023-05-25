@@ -91,7 +91,7 @@ export default function TodoItem({
   return (
     <>
       {!isDel ? (
-        <div className={`${styles.todoItem}`}>
+        <div className={styles.todoItem}>
           <input
             id={id}
             type="checkbox"
@@ -110,16 +110,16 @@ export default function TodoItem({
           <label htmlFor={id}></label>
 
           <div className={styles.contents}>
-            <span className={`${styles.time}`}>{createdTime}</span>
-            <div className={`${styles.content}`}>
+            <span className={styles.time}>{createdTime}</span>
+            <div className={styles.content}>
               {!toggleEdit ? (
                 <>
-                  <div className={`${check.current ? styles.check : ''}`}>
+                  <div className={check.current ? styles.check : ''}>
                     {title}
                   </div>
                   <span className={styles.time}>
-                    edited:{' '}
-                    {`${updatedTime.month} ${updatedTime.date} (${updatedTime.time})`}
+                    edited:
+                    {` ${updatedTime.month} ${updatedTime.date} (${updatedTime.time})`}
                   </span>
                 </>
               ) : (
