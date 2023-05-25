@@ -1,6 +1,7 @@
+@import '@/common/common';
 .todoItem {
   display: flex;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--head-color);
   border: 2px solid #d6d6d6;
   border-radius: 20px;
   justify-content: space-between;

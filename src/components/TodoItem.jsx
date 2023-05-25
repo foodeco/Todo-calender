@@ -1,14 +1,6 @@
-import {
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  useContext,
-} from 'react';
+import { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { deleteApi, putApi } from '@/api/api';
 import styles from '@/styles/TodoItem.module.scss';
-import Context from '@/store/store';
 import PropTypes from 'prop-types';
 
 TodoItem.propTypes = {
@@ -96,14 +88,10 @@ export default function TodoItem({
       setIsEdit(false);
     }
   }, [editData, isEdit]);
-
-  const { value } = useContext(Context);
   return (
     <>
       {!isDel ? (
-        <div
-          className={`${styles.todoItem} ${value ? '.dark-mode--border' : ''}`}
-        >
+        <div className={`${styles.todoItem}`}>
           <input
             id={id}
             type="checkbox"
@@ -122,21 +110,11 @@ export default function TodoItem({
           <label htmlFor={id}></label>
 
           <div className={styles.contents}>
-            <span
-              className={`${styles.time} ${value ? 'dark-mode--text' : ''}`}
-            >
-              {createdTime}
-            </span>
-            <div
-              className={`${styles.content} ${value ? 'dark-mode--text' : ''}`}
-            >
+            <span className={`${styles.time}`}>{createdTime}</span>
+            <div className={`${styles.content}`}>
               {!toggleEdit ? (
                 <>
-                  <div
-                    className={`${check.current ? styles.check : ''} ${
-                      value ? 'dark-mode--text' : ''
-                    }`}
-                  >
+                  <div className={`${check.current ? styles.check : ''}`}>
                     {title}
                   </div>
                   <span className={styles.time}>

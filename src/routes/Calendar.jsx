@@ -1,20 +1,12 @@
-import { useEffect, useState, useCallback, useContext } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Body from '@/components/Body';
 import Head from '@/components/Head';
 import generateCalendar from '@/common/calendar';
-import Context from '@/store/store';
 
 export default function Calendar() {
   const [whatYear, setWhatYear] = useState(new Date().getFullYear());
   const [whatMonth, setWhatMonth] = useState(new Date().getMonth() + 1);
   const [totalDates, setTotalDates] = useState([]);
-  const body = document.body;
-  const { value } = useContext(Context);
-  useEffect(() => {
-    body.style.backgroundColor = value
-      ? 'rgba(0, 0, 0, 0.96)'
-      : 'rgba(255, 253, 244, 0.96)';
-  }, [value]);
   const makeCalendar = useCallback(
     (month) => {
       setTotalDates(generateCalendar(month));

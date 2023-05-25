@@ -1,16 +1,8 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-  useContext,
-} from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { postApi, getApi, reorderApi } from '@/api/api';
 import TodoItem from '@/components/TodoItem';
 import styles from '@/styles/Todo.module.scss';
-import Context from '@/store/store';
 import TodoSkeleton from '@/components/TodoSkeleton';
 import { ReactSortable } from 'react-sortablejs';
 
@@ -28,13 +20,6 @@ export default function Todo() {
   const [refresh, setRefresh] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
   const [sort, setSort] = useState(false);
-  const { value } = useContext(Context);
-  const body = document.body;
-  useEffect(() => {
-    body.style.backgroundColor = value
-      ? 'rgba(0, 0, 0, 0.96)'
-      : 'rgba(255, 253, 244, 0.96)';
-  }, [value]);
 
   const debounce = useCallback((cb, timeout = 300) => {
     let timer;
@@ -109,7 +94,7 @@ export default function Todo() {
   return (
     <div className={`container ${styles.container}`}>
       <Link to="/" className="btn" id="home"></Link>
-      <h2 className={value ? 'dark-mode--text' : ''}>{today.join('')}</h2>
+      <h2>{today.join('')}</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -164,7 +149,7 @@ export default function Todo() {
           </ReactSortable>
         ) : (
           <div>
-            <h6 className={value ? 'dark-mode--text' : ''}>
+            <h6>
               Plan your <span>day</span>, plan your <span>tasks</span>, plan
               your <span>success</span>.
             </h6>

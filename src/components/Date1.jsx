@@ -1,6 +1,4 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import Context from '@/store/store';
 import PropTypes from 'prop-types';
 
 Date1.propTypes = {
@@ -19,20 +17,17 @@ export default function Date1({ year, month, thisMonth, date, todos }) {
   date = date < 10 ? '0' + date : date;
   const id = year + '' + month + '' + date;
   const preview = todos.filter((todo) => todo.title.includes(id));
-  const { value } = useContext(Context);
   const doneCheck = preview.filter((pre) => pre.done);
   return (
     <Link
       to={`/todo/${id}`}
-      className={`date-link ${
-        thisMonth === +month ? '' : `${value ? 'dark-mode--gray' : 'gray'}`
-      } ${
+      className={`date-link ${thisMonth === +month ? '' : 'gray'} ${
         new Date().getMonth() + 1 === +month
           ? TODAY === date
             ? 'today'
             : ''
           : ''
-      } ${value ? 'dark-mode--bc' : ''}`}
+      } `}
     >
       <div className="date-header">
         <div className="date">{date}</div>
@@ -46,12 +41,7 @@ export default function Date1({ year, month, thisMonth, date, todos }) {
       </div>
       {preview
         ? preview.map((v) => (
-            <div
-              key={v.id}
-              className={`preview ${v.done ? 'done' : ''} ${
-                value ? 'dark' : ''
-              }`}
-            >
+            <div key={v.id} className={`preview ${v.done ? 'done' : ''}`}>
               {v.title.replace(`[${id}]`, '')}
             </div>
           ))

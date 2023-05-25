@@ -1,19 +1,36 @@
-import { useContext } from 'react';
-import Context from '@/store/store';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function TheHeader() {
-  const { value, setValue } = useContext(Context);
+  let a = false;
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    currentTheme === 'dark' ? (a = true) : null;
+  }
+  const [isChecked, setIsChecked] = useState(a);
+  useEffect(() => {}, []);
+  function darkMode(e) {
+    if (e.target.checked) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  }
   return (
-    <header className={value ? 'dark-mode--bc' : ''}>
-      <h1 className={value ? 'dark-mode--text' : ''}>Todo Calendar</h1>
+    <header>
+      <h1>Todo Calendar</h1>
 
       <div className="toggle-btn">
         <input
           type="checkbox"
           id="switch"
-          defaultChecked={value}
-          onClick={() => {
-            setValue(!value);
+          defaultChecked={isChecked}
+          onClick={(e) => {
+            setIsChecked(!isChecked);
+            darkMode(e);
           }}
         />
         <label htmlFor="switch" className="switch-label">
