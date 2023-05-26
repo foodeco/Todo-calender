@@ -183,22 +183,6 @@ a::-webkit-scrollbar {
   }
 }
 
-.dark-mode--bc {
-  background-color: rgba(45, 40, 21, 0.8);
-}
-.dark-mode--gray {
-  background-color: rgba(31, 31, 16, 0.8);
-  .date {
-    color: rgba(255, 255, 255, 0.457);
-    background-color: #4d411784;
-  }
-}
-.dark-mode--text {
-  color: #fff !important;
-}
-.dark-mode--border {
-  border: 2px solid #d6d6d6;
-}
 #switch {
   visibility: hidden;
   position: absolute;

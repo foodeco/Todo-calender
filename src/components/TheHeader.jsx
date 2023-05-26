@@ -1,21 +1,20 @@
 import { useState } from 'react';
-import { useEffect } from 'react';
 
 export default function TheHeader() {
   let a = false;
+  const body = document.body;
   const currentTheme = localStorage.getItem('theme');
   if (currentTheme) {
-    document.documentElement.setAttribute('data-theme', currentTheme);
+    body.setAttribute('data-theme', currentTheme);
     currentTheme === 'dark' ? (a = true) : null;
   }
   const [isChecked, setIsChecked] = useState(a);
-  useEffect(() => {}, []);
   function darkMode(e) {
     if (e.target.checked) {
-      document.documentElement.setAttribute('data-theme', 'dark');
+      body.setAttribute('data-theme', 'dark');
       localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.setAttribute('data-theme', 'light');
+      body.setAttribute('data-theme', 'light');
       localStorage.setItem('theme', 'light');
     }
   }

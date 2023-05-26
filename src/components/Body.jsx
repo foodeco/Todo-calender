@@ -11,8 +11,8 @@ Body.propTypes = {
 };
 
 export default function Body({ totalDates, year, month }) {
-  const firstDate = Array.isArray(totalDates) ? totalDates.indexOf(1) : '';
-  const lastDate = Array.isArray(totalDates) ? totalDates.indexOf(1, 8) : '';
+  const firstDate = totalDates.indexOf(1);
+  const lastDate = totalDates.indexOf(1, 8);
   const [todo, setTodo] = useState([]);
   useEffect(() => {
     (async () => {
